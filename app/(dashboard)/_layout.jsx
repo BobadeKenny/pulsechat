@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack, Tabs } from "expo-router";
 import { useColorScheme } from "react-native";
-import { Colors } from "../../constants/Colors";
+import { Colors } from "../../utils/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import UserOnly from "../../components/auth/UserOnly";
 

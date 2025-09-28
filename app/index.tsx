@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 import { Icon } from "../assets/img/favicon.png";
@@ -11,13 +11,16 @@ const Home = () => {
     <ThemedView style={styles.container}>
       <Image source={Icon} style={styles.img}></Image>
       <Spacer />
-      <Link href="/auth/login" style={styles.link}>
+      <Link href="/auth/login">
         <ThemedText>Login</ThemedText>
       </Link>
-      <Link href="/auth/register" style={styles.link}>
+      <Spacer height={10}/>
+
+      <Link href="/auth/register">
         <ThemedText>Register</ThemedText>
       </Link>
-      <Link href="/profile" style={styles.link}>
+      <Spacer height={10}/>
+      <Link href="/profile">
         <ThemedText>Profile</ThemedText>
       </Link>
     </ThemedView>

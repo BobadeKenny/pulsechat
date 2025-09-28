@@ -10,7 +10,7 @@ import ThemedView from "../../components/ThemedView";
 import Spacer from "../../components/Spacer";
 import ThemedText from "../../components/ThemedText";
 import { Link } from "expo-router";
-import { Colors } from "../../constants/Colors";
+import { Colors } from "../../utils/Colors";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { useUser } from "../../hooks/useUser";

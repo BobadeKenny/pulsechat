@@ -5,10 +5,13 @@ import ThemedText from '../../components/ThemedText'
 import ThemedView  from '../../components/ThemedView'
 
 const Chats = () => {
+  const getUserChats = () => {
+    
+  }
   return (
     <ThemedView style={styles.container} safe={true}>
 
-      {/* <Spacer /> */}
+      <Spacer />
       <ThemedText title={true} style={styles.heading}>
         Your Chats
       </ThemedText>

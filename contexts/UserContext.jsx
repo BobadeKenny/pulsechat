@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
+import { customFetch, deleteTokens, saveTokens } from "../utils/FetchUtils";
 
 export const UserContext = createContext();
 
@@ -7,36 +8,10 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
 
-  const saveTokens = async (tokens) => {
-    if (tokens.access) {
-      await SecureStore.setItemAsync("access", tokens.access);
-    }
-    if (tokens.refresh) {
-      await SecureStore.setItemAsync("refresh", tokens.refresh);
-    }
-  };
-
-  const deleteTokens = async () => {
-    await SecureStore.deleteItemAsync("access");
-    await SecureStore.deleteItemAsync("refresh");
-  };
-
-  async function userDetails(token) {
+  async function userDetails() {
     try {
-      const resp = await fetch(
-        `${process.env.EXPO_PUBLIC_API_BASE_URL}auth/user/`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const user_data = await resp.json();
-      setUser(user_data);
-      console.log("user ", user_data);
+      const userData = await customFetch("auth/user/", "GET");
+      setUser(userData);
     } catch (error) {
       console.log(error);
     }
@@ -59,8 +34,8 @@ export function UserProvider({ children }) {
         }
       );
       const data = await resp.json();
-      saveTokens(data);
-      userDetails(data.access);
+      await saveTokens(data);
+      await userDetails();
     } catch (error) {
       console.log("Error: ", error);
     }
@@ -86,8 +61,8 @@ export function UserProvider({ children }) {
         }
       );
       const data = await resp.json();
-      saveTokens(data);
-      userDetails(data.access);
+      await saveTokens(data);
+      await userDetails();
       console.log(user);
     } catch (error) {
       console.log(error);
@@ -96,20 +71,9 @@ export function UserProvider({ children }) {
 
   async function logout() {
     try {
-      const resp = await fetch(
-        `${process.env.EXPO_PUBLIC_API_BASE_URL}auth/logout/`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            token: await SecureStore.getItemAsync("refresh"),
-          }),
-        }
-      );
-      const data = await resp.json();
+      const data = await customFetch("auth/logout/", "POST", {
+        token: await SecureStore.getItemAsync("refresh"),
+      });
       console.log(data);
       deleteTokens();
       setUser(null);
@@ -118,30 +82,9 @@ export function UserProvider({ children }) {
     }
   }
 
-  async function refresh() {
+  async function getInitialUserValue() {
     try {
-      const refreshToken = await SecureStore.getItemAsync("refresh");
-
-      if (refreshToken != null) {
-        const resp = await fetch(
-          `${process.env.EXPO_PUBLIC_API_BASE_URL}auth/token/refresh/`,
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              refresh: refreshToken,
-            }),
-          }
-        );
-        const data = await resp.json();
-        userDetails(data.access);
-        saveTokens(data);
-      } else {
-        setUser(null);
-      }
+      await userDetails();
     } catch (error) {
       console.log("Error: ", error);
       setUser(null);
@@ -151,7 +94,7 @@ export function UserProvider({ children }) {
   }
 
   useEffect(() => {
-    refresh();
+    getInitialUserValue();
   }, []);
 
   return (
