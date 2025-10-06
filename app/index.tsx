@@ -6,13 +6,15 @@ import ThemedView from "../components/ThemedView";
 import Spacer from "../components/Spacer";
 import ThemedText from "../components/ThemedText";
 
+import '../global.css'
+
 const Home = () => {
   return (
     <ThemedView style={styles.container}>
       <Image source={Icon} style={styles.img}></Image>
       <Spacer />
       <Link href="/auth/login">
-        <ThemedText>Login</ThemedText>
+        <ThemedText >Login</ThemedText>
       </Link>
       <Spacer height={10}/>
 
