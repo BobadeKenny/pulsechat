@@ -1,14 +1,19 @@
 import React from "react";
 import { Stack } from "expo-router";
 import { UserProvider } from "../contexts/UserContext";
+import { useColorScheme } from "react-native";
+import { Colors } from "../utils/Colors";
 
 const RootLayout = () => {
+  const theme = Colors[useColorScheme()] ?? Colors.light
   return (
     <UserProvider>
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: "#ddd" },
-          headerTintColor: "#333",
+          headerStyle: { backgroundColor: theme.background },
+          headerTitle: "PulseChat",
+          headerTitleStyle: { color: theme.text },
+          headerShadowVisible: false,
         }}
       >
         {/* <Stack.Screen name="index" options={{ title: "Home" }} />

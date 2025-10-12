@@ -1,11 +1,11 @@
 export const Colors = {
   primary: "#6849a7",
   warning: "#cc475a",
-  
+
   dark: {
     text: "#d4d4d4",
     title: "#fff",
-    background: "#252231",
+    background: "#101821",
     navBackground: "#201e2b",
     iconColor: "#9591a5",
     iconColorFocused: "#fff",
@@ -20,4 +20,4 @@ export const Colors = {
     iconColorFocused: "#201e2b",
     uiBackground: "#d6d5e1",
   },
-}
+};
