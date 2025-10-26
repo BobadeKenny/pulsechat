@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
-import React from "react";
-import { Link } from "expo-router";
+import React, { useEffect } from "react";
+import { Link, useRouter } from "expo-router";
 import ThemedView from "../components/ThemedView";
 import Spacer from "../components/Spacer";
 import ThemedText from "../components/ThemedText";
@@ -8,8 +8,17 @@ import ThemedText from "../components/ThemedText";
 import "../global.css";
 import ThemedLogo from "../components/ThemedLogo";
 import Button from "../components/Button";
+import { useUser } from "../hooks/useUser";
 
 const Home = () => {
+  const {authChecked, user} = useUser()
+  const router = useRouter()
+  
+  useEffect(() => {
+    if (authChecked && user != null){
+      router.replace("/chats")
+    }
+  }), [user, authChecked]
   return (
     <ThemedView style={styles.container} safe={true}>
       <ThemedLogo style={styles.img} />
@@ -20,22 +29,15 @@ const Home = () => {
       <ThemedText>Connect to friends and family instantly.</ThemedText>
       <ThemedText>Sign up or log in to start chatting.</ThemedText>
       <Spacer />
-      <Link href="/auth/login">
-        <ThemedText>Login</ThemedText>
-      </Link>
-      {/* <Button onPress={()=>{
+      <Button onPress={()=>{
         router.push("/auth/login")
       }}>
         <ThemedText>Login</ThemedText>
-      </Button> */}
+      </Button>
       <Spacer height={10} />
 
       <Link href="/auth/register">
         <ThemedText>Register</ThemedText>
-      </Link>
-      <Spacer height={10} />
-      <Link href="/profile">
-        <ThemedText>Profile</ThemedText>
       </Link>
     </ThemedView>
   );
