@@ -17,13 +17,24 @@ export function RoomsProvider({children}){
         }
     }
 
+    
+    async function getRoomDetails(id) {
+        try {
+            const resp = await customFetch(`rooms/${id}/`)
+            return resp 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         getRooms();
     }, [])
 
     return (
-        <RoomsContext.Provider value={{ rooms, getRooms }}>
+        <RoomsContext.Provider value={{ rooms, getRooms, getRoomDetails }}>
             {children}
         </RoomsContext.Provider>
     )
+
 }

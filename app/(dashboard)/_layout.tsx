@@ -62,6 +62,7 @@ const DashboardLayout = () => {
             ),
           }}
         />
+        <Tabs.Screen name="chats/[id]" options={{href: null}}/>
       </Tabs>
     </RoomsProvider>
   );
