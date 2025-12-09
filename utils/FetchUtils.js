@@ -75,4 +75,4 @@ async function customFetch(url, method = "GET", body = null) {
   }
 }
 
-export { customFetch, saveTokens, deleteTokens };
+export { customFetch, saveTokens, deleteTokens, refreshAccessToken };
