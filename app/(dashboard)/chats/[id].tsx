@@ -41,6 +41,12 @@ const Chat = () => {
     ws.current.onmessage = (e) => {
       console.log(e.data);
     };
+    ws.current.onerror = (e) => {
+      console.log(e.message)
+    }
+    ws.current.onclose = (e) => {
+      console.log(e.code, e.reason)
+    }
   }
 
   async function sendMessage() {
@@ -54,7 +60,6 @@ const Chat = () => {
       content: text,
       id: Date.now(),
     });
-    console.log(messages);
   }
 
   useEffect(() => {
