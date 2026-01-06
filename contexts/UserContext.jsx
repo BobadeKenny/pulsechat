@@ -13,7 +13,8 @@ export function UserProvider({ children }) {
       const userData = await customFetch("auth/user/", "GET");
       setUser(userData);
     } catch (error) {
-      console.log(error);
+      throw new Error(error.message);
+      
     }
   }
 
@@ -37,11 +38,12 @@ export function UserProvider({ children }) {
       await saveTokens(data);
       await userDetails();
     } catch (error) {
-      console.log("Error: ", error);
+      throw new Error(error.message);
+      
     }
   }
 
-  async function register(username, email, password, first_name, last_name) {
+  async function register(username, email, password) {
     try {
       const resp = await fetch(
         `${process.env.EXPO_PUBLIC_API_BASE_URL}auth/register/`,
@@ -54,8 +56,6 @@ export function UserProvider({ children }) {
           body: JSON.stringify({
             username: username,
             email: email,
-            first_name: first_name,
-            last_name: last_name,
             password: password,
           }),
         }
@@ -63,22 +63,20 @@ export function UserProvider({ children }) {
       const data = await resp.json();
       await saveTokens(data);
       await userDetails();
-      console.log(user);
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 
   async function logout() {
     try {
-      const data = await customFetch("auth/logout/", "POST", {
+      await customFetch("auth/logout/", "POST", {
         token: await SecureStore.getItemAsync("refresh"),
       });
-      console.log(data);
       deleteTokens();
       setUser(null);
     } catch (error) {
-      console.log(error);
+      throw new Error(error.message);
     }
   }
 
@@ -86,8 +84,8 @@ export function UserProvider({ children }) {
     try {
       await userDetails();
     } catch (error) {
-      console.log("Error: ", error);
       setUser(null);
+      throw new Error(error.message);    
     } finally {
       setAuthChecked(true);
     }
