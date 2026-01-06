@@ -19,10 +19,11 @@ const Root = () => {
   return (
     <Stack
       screenOptions={{
-        headerStyle: { backgroundColor: theme.background },
-        headerTitle: "PulseChat",
-        headerTitleStyle: { color: theme.text },
-        headerShadowVisible: false,
+        // headerStyle: { backgroundColor: theme.background },
+        // headerTitle: "PulseChat",
+        // headerTitleStyle: { color: theme.text },
+        // headerShadowVisible: false,
+        headerShown: false
       }}
     >
       <Stack.Protected guard={authChecked && user === null}>

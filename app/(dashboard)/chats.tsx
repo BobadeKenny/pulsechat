@@ -11,21 +11,28 @@ import Button from "../../components/Button";
 import { useRouter } from "expo-router";
 
 const Chats = () => {
-  const { rooms } = useRooms();
+  const { userRooms } = useRooms();
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme] ?? Colors.light;
   const router = useRouter()
   return (
     <ThemedView style={styles.container} safe={true}>
-      <Spacer />
-      <ThemedView style={styles.header}>
-        <ThemedText title={true} style={styles.heading}>
-          Your Chats
+      <ThemedView
+        style={styles.header}
+        className="sticky top-0 flex justify-between"
+      >
+        <ThemedText
+          title={true}
+          style={styles.heading}
+          className="text-xl font-bold"
+        >
+          Chatrooms
         </ThemedText>
         <Button
           onPress={() => {
             router.push("/create");
           }}
+          className="flex h-10 w-10 items-center justify-center"
         >
           <Ionicons size={30} name={"add-circle"} color={theme.iconColor} />
         </Button>
@@ -33,11 +40,11 @@ const Chats = () => {
       <Spacer />
 
       <FlatList
-        data={rooms}
+        data={userRooms}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <Pressable onPress={() =>  router.push(`/chats/${item.id}`)}> 
+          <Pressable onPress={() => router.push(`/chats/${item.id}`)}>
             <ThemedCard style={styles.card}>
               <ThemedText style={styles.title}>{item.name}</ThemedText>
             </ThemedCard>
@@ -59,7 +66,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    // alignItems: "center",
     paddingHorizontal: 16,
   },
   heading: {

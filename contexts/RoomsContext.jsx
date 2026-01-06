@@ -6,6 +6,7 @@ export const RoomsContext = createContext()
 
 export function RoomsProvider({children}){
     const [rooms, setRooms] = useState([])
+    const [userRooms, setUserRooms] = useState([])
 
     async function getRooms() {
         try {
@@ -14,6 +15,15 @@ export function RoomsProvider({children}){
 
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    async function getUserRooms() {
+        try {
+          const response = await customFetch("rooms/my-rooms/", "GET");
+          setUserRooms(response);
+        } catch (error) {
+          console.log(error);
         }
     }
 
@@ -39,10 +49,11 @@ export function RoomsProvider({children}){
 
     useEffect(() => {
         getRooms();
+        getUserRooms();
     }, [])
 
     return (
-        <RoomsContext.Provider value={{ rooms, getRooms, getRoomDetails, getRoomMessages }}>
+        <RoomsContext.Provider value={{ rooms, getRooms, getRoomDetails, getRoomMessages, getUserRooms, userRooms }}>
             {children}
         </RoomsContext.Provider>
     )

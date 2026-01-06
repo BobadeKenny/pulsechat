@@ -91,7 +91,7 @@ const Register = () => {
         >
           <Text className="font-semibold text-white">Sign Up</Text>
         </Button>
-        <Spacer height={250} />
+        <Spacer height={180} />
         <ThemedText className="text-center text-sm text-gray-500 dark:text-gray-400">
           Already have an account?
           <Link
